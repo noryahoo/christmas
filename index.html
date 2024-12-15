@@ -47,6 +47,14 @@
             animation: twinkle 1.5s ease-in-out infinite alternate;
         }
 
+        .decorative-heart {
+            position: absolute;
+            color: #ff4444;
+            font-size: 1.5em;
+            animation: heartbeat 2s ease-in-out infinite;
+            z-index: 10;
+        }
+
         @keyframes twinkle {
             from { opacity: 0.4; }
             to { opacity: 1; }
@@ -60,31 +68,10 @@
             font-weight: bold;
         }
 
-        .author-container {
-            position: fixed;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-        }
-
-        .heart {
-            color: #ff0000;
-            font-size: 3em;
-            display: block;
-            margin-bottom: 15px;
-            animation: heartbeat 1s ease-in-out infinite;
-        }
-
         @keyframes heartbeat {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
-        }
-
-        .author {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9em;
         }
 
         .audio-controls {
@@ -100,6 +87,15 @@
 
         .audio-controls:hover {
             background: rgba(255, 255, 255, 0.3);
+        }
+
+        .author {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -148,11 +144,7 @@
         </svg>
     </div>
     <div class="greeting">Priecīgus ziemassvētkus!</div>
-    
-    <div class="author-container">
-        <div class="heart">❤</div>
-        <div class="author">Rihards :)</div>
-    </div>
+    <div class="author">Rihards :)</div>
 
     <script>
         // Audio control
@@ -171,6 +163,7 @@
             isPlaying = !isPlaying;
         }
 
+        // Auto-play music when page loads (with user interaction)
         document.body.addEventListener('click', function() {
             if (!isPlaying) {
                 audio.play();
@@ -179,6 +172,29 @@
             }
         }, { once: true });
 
+        // Create hearts around the tree
+        function createHearts() {
+            const treeContainer = document.querySelector('.tree-container');
+            const heartPositions = [
+                { x: 50, y: 100, delay: 0 },
+                { x: 250, y: 150, delay: 0.5 },
+                { x: 70, y: 200, delay: 1 },
+                { x: 230, y: 250, delay: 1.5 },
+                { x: 100, y: 300, delay: 2 }
+            ];
+
+            heartPositions.forEach(pos => {
+                const heart = document.createElement('div');
+                heart.className = 'decorative-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = pos.x + 'px';
+                heart.style.top = pos.y + 'px';
+                heart.style.animationDelay = pos.delay + 's';
+                treeContainer.appendChild(heart);
+            });
+        }
+
+        // Create snowflakes
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.className = 'snowflake';
@@ -194,6 +210,7 @@
             }, 5000);
         }
 
+        // Create lights
         function createLights() {
             const treeContainer = document.querySelector('.tree-container');
             const colors = ['#ff0000', '#00ff00', '#ffff00', '#ff69b4', '#00ffff'];
@@ -216,9 +233,12 @@
             });
         }
 
+        // Start animations
         setInterval(createSnowflake, 100);
         setTimeout(createLights, 1000);
+        setTimeout(createHearts, 1000);
 
+        // Initial burst of snowflakes
         for(let i = 0; i < 20; i++) {
             setTimeout(createSnowflake, i * 100);
         }
