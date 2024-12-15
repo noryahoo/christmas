@@ -176,11 +176,11 @@
         function createHearts() {
             const treeContainer = document.querySelector('.tree-container');
             const heartPositions = [
-                { x: 50, y: 100, delay: 0 },
-                { x: 250, y: 150, delay: 0.5 },
-                { x: 70, y: 200, delay: 1 },
-                { x: 230, y: 250, delay: 1.5 },
-                { x: 100, y: 300, delay: 2 }
+                { x: 40, y: 100, delay: 0 },    // Left top heart
+                { x: 260, y: 150, delay: 0.5 }, // Right heart
+                { x: 30, y: 200, delay: 1 },    // Left heart
+                { x: 250, y: 250, delay: 1.5 }, // Right bottom heart
+                { x: 70, y: 300, delay: 2 }     // Bottom left heart
             ];
 
             heartPositions.forEach(pos => {
